@@ -1,4 +1,4 @@
-package com.gogo.swp_gogo;
+package com.gogo.swp_gogo.controllers;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        System.out.println("hello World");
+
     }
 
     @Override
