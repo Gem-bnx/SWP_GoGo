@@ -10,16 +10,29 @@ public class KhachHangSignup {
 
     public KhachHangSignup(HttpServletRequest req) {
         this.req = req;
-        setEmail();
-        setPassword();
     }
 
     public void setKhachHangId() {
-        khachHangId = MyRandom.generateRandomId(8,"KH");
+        do {
+            khachHangId = MyRandom.generateRandomId(8,"KH");
+        } while (DataValidator.isKhachHangValid("idKhachHang",khachHangId));
     }
 
     private void setEmail() {
         email = req.getParameter("email");
+        if (DataValidator.isKhachHangValid("email",email)) {
+            email = null;
+        }
+    }
+
+    public boolean run() {
+        setEmail();
+        if (email!=null) {
+            setKhachHangId();
+            setPassword();
+            return true;
+        }
+        return false;
     }
 
     private void setPassword() {
@@ -34,4 +47,7 @@ public class KhachHangSignup {
         return password;
     }
 
+    public String getKhachHangId() {
+        return khachHangId;
+    }
 }

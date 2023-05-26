@@ -2,9 +2,8 @@ package com.gogo.swp_gogo.models;
 
 import java.sql.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public class MyQueries {
 
@@ -21,21 +20,36 @@ public class MyQueries {
         return null;
     }
 
-    public static ArrayList<KhachHang> getAllKhachHang() {
+    public static void addKhachHang(KhachHangSignup khachHangSignup) {
         Connection connection = getConnection();
-        ArrayList<KhachHang> list = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement("Select * from GoGo.dbo.KhachHang");
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                KhachHang khachHang = new KhachHang();
-                list.add(khachHang);
-            }
+            PreparedStatement statement = connection.prepareStatement("Insert Into GoGo.dbo.KhachHang(idKhachHang,email,password) Values(?,?,?)");
+            statement.setString(1,khachHangSignup.getKhachHangId());
+            statement.setString(2,khachHangSignup.getEmail());
+            statement.setString(3,khachHangSignup.getPassword());
+            statement.executeUpdate();
             connection.close();
-        } catch (SQLException | ParseException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return list;
+    }
+
+
+    public static List<String> getAllKhachHangInfo(String col) {
+        Connection connection = getConnection();
+        List<String> res = new ArrayList<>();
+        try {
+            String q = "Select "+col+" from GoGo.dbo.KhachHang";
+            PreparedStatement statement = connection.prepareStatement(q);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                res.add(resultSet.getString(1));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return res;
     }
 
 }

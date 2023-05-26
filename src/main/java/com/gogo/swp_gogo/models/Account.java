@@ -5,7 +5,11 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface Account {
 
     void login();
-    default void signup(HttpServletRequest request) {
+    default boolean signup(HttpServletRequest request) {
         KhachHangSignup khachHangSignup = new KhachHangSignup(request);
+        if (khachHangSignup.run()) {
+            MyQueries.addKhachHang(khachHangSignup);
+            return true;
+        } else return false;
     };
 }

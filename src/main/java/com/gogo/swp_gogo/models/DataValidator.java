@@ -1,12 +1,13 @@
 package com.gogo.swp_gogo.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataValidator {
-    public static boolean isKhachHangIdExist(String userId) {
-        ArrayList<User> userList = MyQueries.getAllUsers();
-        for (User u:userList) {
-            if (u.getUserId().equals(userId)) return true;
+    public static boolean isKhachHangValid(String col, String data) {
+        List<String> list = MyQueries.getAllKhachHangInfo(col);
+        for (String sample:list) {
+            if (sample.equals(data)) return true;
         }
         return false;
     }
